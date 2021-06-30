@@ -1,10 +1,6 @@
 import * as THREE from 'three'
-import { AnimatedCameraProxy } from '../src/AnimatedCameraProxy'
-import { PointerControl } from '../src/PointerControl'
-import Timeline from 'ani-timeline'
-
-const timeline = new Timeline()
-timeline.play()
+import { CameraProxy } from '../src/CameraProxy'
+import { TouchControlRotate } from '../src/TouchControlRotate'
 
 // THREE basic
 const scene = new THREE.Scene()
@@ -36,11 +32,7 @@ function animate() {
 }
 animate()
 
-const cam = new AnimatedCameraProxy({
-	timeline,
-
-	inert: true,
-
+const cam = new CameraProxy({
 	cameraFOV: camera.fov,
 	states: {
 		center: [0, 0, 0],
@@ -60,10 +52,10 @@ const cam = new AnimatedCameraProxy({
 		camera.position.fromArray(cam.position)
 		camera.rotation.fromArray(cam.rotationEuler)
 		camera.updateMatrix()
+		camera.updateMatrixWorld()
 	},
 })
-
-const pointerControl = new PointerControl({
+const pointerControl = new TouchControlRotate({
 	camera: cam,
 	element: renderer.domElement,
 })
